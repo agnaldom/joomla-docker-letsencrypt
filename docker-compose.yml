@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  db:
+    container_name: db_govpadrao
+    image: mariadb:latest
+    restart: unless-stopped
+    volumes:
+       - /var/lib/docker/volumes/govpadrao/data/db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: database_name
+      MYSQL_USER: user_name
+      MYSQL_PASSWORD: user_password
+
+  php-fpm:
+    depends_on:
+      - db
+    container_name: php_govpadrao
+    image: php:7.0-fpm
+    restart: unless-stopped
+    volumes:
+      - /var/lib/docker/volumes/govpadrao/public_html:/var/www/html
+
+
+
+  nginx:
+    depends_on:
+      - db
+      - php-fpm
+    container_name: govpadrao
+    image: nginx:latest
+    restart: unless-stopped
+    expose:
+          - "443"
+    volumes:
+      - /var/lib/docker/volumes/govpadrao/public_html:/var/www/html
+    environment:
+      DB_HOST: db:3306
+      DB_NAME: wordpress
+      DB_USER: user_name
+      DB_PASSWORD: user_password
+      DB_TABLE_PREFIX: st_
+      VIRTUAL_HOST: domain.com, www.domain.com
+      VIRTUAL_PROTO: https
+      VIRTUAL_PORT: 443
+      LETSENCRYPT_HOST: domain.com, www.domain.com
+      LETSENCRYPT_EMAIL: your_email@domain.com
+
+networks:
+    default:
+       external:
+         name: webproxy
