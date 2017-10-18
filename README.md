@@ -1,4 +1,4 @@
-# Using Wordpress with SSL enabled integrated with NGINX proxy and autorenew LetsEncrypt certificates
+# Using Joomla with SSL enabled integrated with NGINX proxy and autorenew LetsEncrypt certificates
 
 This docker-compose should be used with the NGINX Proxy as of sample here:
 
@@ -12,7 +12,7 @@ After everything is settle, and you have your three containers running (_proxy, 
 1. Clone this repository:
 
 ```bash
-git clone https://github.com/evertramos/wordpress-docker-letsencrypt.git
+git clone https://github.com/agnaldom/joomla-docker-letsencrypt.git
 ```
 
 Or just copy the content of `docker-compose.yml` and the `Dockerfile`, as of below:
@@ -46,11 +46,11 @@ services:
        - /path/to/your/data/wordpress:/var/www/html
        - /path/to/your/data/wp-content:/var/www/html/wp-content
      environment:
-       WORDPRESS_DB_HOST: db:3306
-       WORDPRESS_DB_NAME: wordpress
-       WORDPRESS_DB_USER: user_name
-       WORDPRESS_DB_PASSWORD: user_password
-       WORDPRESS_TABLE_PREFIX: wp_
+       JOOMLA_DB_HOST: db:3306
+       JOOMLA_DB_NAME: wordpress
+       JOOMLA_DB_USER: user_name
+       JOOMLA_DB_PASSWORD: user_password
+       JOOMLA_TABLE_PREFIX: wp_
        VIRTUAL_HOST: domain.com, www.domain.com
        VIRTUAL_PROTO: https
        VIRTUAL_PORT: 443
